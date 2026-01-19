@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>芒种 · 湿热交争，防病除患 - 临床医学节气健康指南</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2E5C4B;
+            --accent-color: #D4A017;
+            --warning-color: #C53030;
+            --light-color: #F8F9FA;
+            --dark-color: #1A2F26;
+            --card-bg: #FFFFFF;
+            --border-color: #E2E8F0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+        body { background-color: var(--light-color); color: var(--dark-color); line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #1A3A2D);
+            color: white; padding: 2rem 0; text-align: center;
+            border-bottom: 5px solid var(--accent-color); position: relative; overflow: hidden;
+        }
+        h1 { font-size: 2.8rem; margin-bottom: 0.5rem; text-shadow: 1px 1px 3px rgba(0,0,0,0.3); }
+        .subtitle { font-size: 1.3rem; font-weight: 300; max-width: 800px; margin: 0 auto 1.5rem; opacity: 0.9; }
+        .alert-banner {
+            background-color: rgba(197, 48, 48, 0.1); border-left: 5px solid var(--warning-color);
+            padding: 1.2rem; margin: 2rem auto; max-width: 1000px; border-radius: 0 8px 8px 0;
+            display: flex; align-items: center; animation: pulse 3s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(197, 48, 48, 0.2); }
+            70% { box-shadow: 0 0 0 10px rgba(197, 48, 48, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(197, 48, 48, 0); }
+        }
+        .flowchart-section, .tools-section {
+            background-color: var(--card-bg); border-radius: 12px; padding: 2rem; margin: 3rem 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid var(--border-color);
+        }
+        .section-title {
+            color: var(--primary-color); border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 0.7rem; margin-bottom: 1.5rem; font-size: 1.8rem;
+            display: flex; align-items: center;
+        }
+        .section-title i { margin-right: 10px; color: var(--accent-color); }
+        .options-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin-bottom: 2rem; }
+        .option-btn {
+            background-color: white; border: 2px solid var(--primary-color); color: var(--primary-color);
+            padding: 1.2rem 2rem; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer;
+            transition: all 0.3s ease; display: flex; align-items: center; min-width: 220px; justify-content: center;
+        }
+        .option-btn:hover { background-color: rgba(46, 92, 75, 0.05); transform: translateY(-3px); }
+        .option-btn.active { background-color: var(--primary-color); color: white; }
+        .result-container {
+            background-color: rgba(46, 92, 75, 0.05); border-radius: 10px; padding: 2rem; margin-top: 1.5rem;
+            width: 100%; max-width: 900px; display: none; border-left: 5px solid var(--accent-color);
+        }
+        .result-container.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .result-content { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        @media (max-width: 768px) { .result-content { grid-template-columns: 1fr; } }
+        .do-box, .dont-box { padding: 1.5rem; border-radius: 8px; }
+        .do-box { background-color: rgba(46, 92, 75, 0.08); border: 1px solid var(--primary-color); }
+        .dont-box { background-color: rgba(197, 48, 48, 0.05); border: 1px solid var(--warning-color); }
+        .disease-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1.8rem; margin: 2.5rem 0; }
+        .disease-card { background-color: var(--card-bg); border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 1px solid var(--border-color); transition: transform 0.3s ease; }
+        .disease-card:hover { transform: translateY(-5px); }
+        .card-header { background-color: var(--primary-color); color: white; padding: 1.2rem; display: flex; align-items: center; justify-content: space-between; }
+        .toggle-btn { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; transition: transform 0.3s ease; }
+        .card-content { padding: 1.5rem; display: none; }
+        .card-content.active { display: block; }
+        .risk-groups, .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+        footer { background-color: var(--dark-color); color: white; padding: 3rem 0 2rem; margin-top: 3rem; }
+        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
+        .disclaimer { background-color: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 8px; font-size: 0.9rem; line-height: 1.5; margin-top: 1.5rem; border-left: 3px solid var(--accent-color); }
+        .copyright { text-align: center; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.9rem; opacity: 0.7; }
+        .credits { text-align: center; color: var(--accent-color); font-weight: bold; margin: 1rem 0; font-size: 1.1rem; }
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; } .subtitle { font-size: 1.1rem; }
+            .options-container { flex-direction: column; align-items: center; }
+            .option-btn { width: 100%; max-width: 300px; } .disease-cards { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <h1><i class="fas fa-seedling"></i> 芒种 · 湿热交争，防病除患</h1>
+            <p class="subtitle">临床医学视角下的节气高发疾病防治指南 | 基于国家卫健委健康提示</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="alert-banner">
+            <div class="alert-icon"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="alert-text">警惕！芒种时节是虫媒传染病与急性消化系统疾病的高发窗口期。湿热环境有利于病原体传播，外出活动请做好防护。</div>
+        </div>
+
+        <section class="flowchart-section">
+            <h2 class="section-title"><i class="fas fa-project-diagram"></i> 虫咬/不适应急处理决策流程图</h2>
+            <p style="margin-bottom: 1.5rem; color: #555;">请根据您的情况选择，获取专业的临床处理建议：</p>
+            <div class="flowchart-container">
+                <div class="step-question">第一步：识别叮咬来源或症状类型</div>
+                <div class="options-container">
+                    <div class="option-btn" data-result="tick"><i class="fas fa-bug"></i> 蜱虫叮咬</div>
+                    <div class="option-btn" data-result="mite"><i class="fas fa-spider"></i> 恙螨/其他螨虫叮咬</div>
+                    <div class="option-btn" data-result="mosquito"><i class="fas fa-mosquito"></i> 蚊虫叮咬伴异常症状</div>
+                    <div class="option-btn" data-result="fever"><i class="fas fa-thermometer-full"></i> 原因不明发热/皮疹</div>
+                </div>
+                <div class="result-container" id="result-tick">
+                    <h3 class="result-title"><i class="fas fa-tools"></i> 蜱虫叮咬临床处理指南</h3>
+                    <div class="result-content">
+                        <div class="do-box">
+                            <h4 class="do-title"><i class="fas fa-check-circle"></i> 正确做法（应立即执行）</h4>
+                            <ul><li>使用<strong>尖头镊子</strong>尽可能靠近皮肤表面夹住蜱虫头部</li><li>保持<strong>稳定、均匀的力度垂直向上</strong>拔出，避免扭转或猛拉</li><li>用<strong>酒精或碘伏</strong>彻底清洁叮咬部位及双手</li><li>将蜱虫保存在密封容器中，以备医疗鉴定需要</li><li><strong>密切观察14天内</strong>是否出现发热、乏力、肌肉酸痛等症状</li></ul>
+                        </div>
+                        <div class="dont-box">
+                            <h4 class="dont-title"><i class="fas fa-times-circle"></i> 禁忌做法（切勿尝试）</h4>
+                            <ul><li class="warning">切勿用手指直接捏碎或压扁虫体</li><li class="warning">避免使用凡士林、指甲油、酒精覆盖虫体</li><li class="warning">禁止用火烤、烟头烫等民间土法</li><li class="warning">不要盲目使用抗生素预防，除非医生建议</li><li class="warning">如出现发热等症状，切勿自行服用退烧药后拖延就医</li></ul>
+                        </div>
+                    </div>
+                    <div style="margin-top:1.5rem; padding:1rem; background-color:rgba(197,48,48,0.05); border-radius:5px;">
+                        <p><strong><i class="fas fa-notes-medical"></i> 就医指征：</strong>如出现<strong>发热（体温＞38℃）、头痛、肌肉酸痛、皮疹或出血倾向</strong>，或蜱虫附着时间超过24小时，应立即前往<strong>感染科或急诊科</strong>就诊，并告知医生蜱虫叮咬史。</p>
+                    </div>
+                </div>
+                <div class="result-container" id="result-mite">
+                    <h3 class="result-title"><i class="fas fa-tools"></i> 恙螨叮咬临床处理指南</h3>
+                    <div class="result-content">
+                        <div class="do-box">
+                            <h4 class="do-title"><i class="fas fa-check-circle"></i> 正确做法（应立即执行）</h4>
+                            <ul><li>立即用<strong>肥皂和水</strong>彻底清洗叮咬区域</li><li>使用<strong>止痒药膏</strong>（如氢化可的松乳膏）缓解瘙痒</li><li>检查全身皮肤，特别是腰部、腋窝、腹股沟等隐蔽部位有无<strong>焦痂</strong></li><li>清洗所有可能接触过的衣物和床上用品（热水洗涤）</li><li>如发现典型焦痂（中央黑色坏死，周围红晕），立即就医</li></ul>
+                        </div>
+                        <div class="dont-box">
+                            <h4 class="dont-title"><i class="fas fa-times-circle"></i> 禁忌做法（切勿尝试）</h4>
+                            <ul><li class="warning">避免过度搔抓，以防继发性细菌感染</li><li class="warning">不要使用未经消毒的针挑破丘疹或水泡</li><li class="warning">勿信偏方涂抹草药或唾液，增加感染风险</li><li class="warning">如出现发热，不要单纯当作感冒治疗</li></ul>
+                        </div>
+                    </div>
+                    <div style="margin-top:1.5rem; padding:1rem; background-color:rgba(197,48,48,0.05); border-radius:5px;">
+                        <p><strong><i class="fas fa-notes-medical"></i> 就医指征：</strong>恙螨是恙虫病立克次体的传播媒介。叮咬后<strong>4-21天</strong>如出现<strong>高热、剧烈头痛、淋巴结肿大</strong>，尤其发现<strong>特征性焦痂</strong>，必须立即就医。早期使用<strong>多西环素</strong>治疗效果好。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title"><i class="fas fa-disease"></i> 芒种高发虫媒传染病详解</h2>
+            <div class="disease-cards">
+                <div class="disease-card">
+                    <div class="card-header"><h3><i class="fas fa-bug"></i> 发热伴血小板减少综合征（蜱虫病）</h3><button class="toggle-btn"><i class="fas fa-chevron-down"></i></button></div>
+                    <div class="card-content">
+                        <div class="pathogen"><div class="pathogen-icon"><i class="fas fa-virus"></i></div><div class="pathogen-info"><h4>病原体</h4><p><strong>新布尼亚病毒（SFTSV）</strong> | 布尼亚病毒科，主要通过蜱虫叮咬传播，也可通过接触患者血液/体液传播。</p></div></div>
+                        <div class="symptoms"><h4><i class="fas fa-stethoscope"></i> 典型临床表现</h4><ul><li><strong>急性发热</strong>（体温多＞38℃），伴乏力、食欲减退</li><li><strong>血小板进行性减少</strong>（＜100×10⁹/L），白细胞计数降低</li><li><strong>胃肠道症状</strong>：恶心、呕吐、腹泻</li><li><strong>出血倾向</strong>：皮肤瘀点、牙龈出血，重者消化道出血</li><li>部分患者出现<strong>神经系统症状</strong>：意识障碍、昏迷</li><li class="warning">重症患者可迅速发展为多器官功能衰竭，病死率较高（5-30%）</li></ul></div>
+                        <div class="symptoms"><h4><i class="fas fa-user-md"></i> 临床处理要点</h4><ul><li><strong>疑似病例</strong>应收入感染科隔离治疗，避免接触传播</li><li>主要采取<strong>对症支持治疗</strong>，尚无特效抗病毒药物</li><li>重症患者可考虑<strong>恢复期血浆治疗</strong>，需严格评估</li><li>流行病学史询问至关重要：<strong>发病前2周有丘陵、林地等疫区活动史</strong></li></ul></div>
+                    </div>
+                </div>
+                <div class="disease-card">
+                    <div class="card-header"><h3><i class="fas fa-spider"></i> 恙虫病</h3><button class="toggle-btn"><i class="fas fa-chevron-down"></i></button></div>
+                    <div class="card-content">
+                        <div class="pathogen"><div class="pathogen-icon"><i class="fas fa-bacteria"></i></div><div class="pathogen-info"><h4>病原体</h4><p><strong>恙虫病东方体</strong> | 立克次体属，通过恙螨幼虫（恙虫）叮咬传播，啮齿类动物为主要宿主。</p></div></div>
+                        <div class="symptoms"><h4><i class="fas fa-stethoscope"></i> 典型临床表现</h4><ul><li><strong>特征性焦痂/溃疡</strong>：叮咬处出现红色丘疹→水泡→中央坏死形成黑色焦痂，周围红晕</li><li><strong>稽留高热</strong>，体温迅速升至39-40℃</li><li><strong>淋巴结肿大</strong>：焦痂附近引流淋巴结肿大、压痛</li><li><strong>皮疹</strong>：病程第4-6天出现暗红色斑丘疹</li><li>可并发<strong>肺炎、心肌炎、脑膜炎</strong>等</li></ul></div>
+                        <div class="symptoms"><h4><i class="fas fa-user-md"></i> 临床处理要点</h4><ul><li><strong>特效治疗</strong>：<strong>多西环素</strong>为首选（成人100mg bid），通常用药后2-3天退热</li><li>替代药物：氯霉素、阿奇霉素（儿童、孕妇适用）</li><li>仔细查找<strong>焦痂</strong>（常见于腋窝、腹股沟、腰部等隐蔽处）是诊断关键</li><li>外斐氏试验（OXK阳性）有辅助诊断价值</li></ul></div>
+                    </div>
+                </div>
+                <div class="disease-card">
+                    <div class="card-header"><h3><i class="fas fa-mosquito"></i> 登革热</h3><button class="toggle-btn"><i class="fas fa-chevron-down"></i></button></div>
+                    <div class="card-content">
+                        <div class="pathogen"><div class="pathogen-icon"><i class="fas fa-virus"></i></div><div class="pathogen-info"><h4>病原体</h4><p><strong>登革病毒（DENV 1-4型）</strong> | 黄病毒属，通过<strong>白纹伊蚊、埃及伊蚊</strong>叮咬传播，无直接人传人。</p></div></div>
+                        <div class="symptoms"><h4><i class="fas fa-stethoscope"></i> 典型临床表现</h4><ul><li><strong>高热</strong>：突发高热（39-40℃），持续3-7天，伴剧烈头痛、眼眶痛、肌肉关节痛（"三痛"）</li><li><strong>皮疹</strong>：病程第3-6天出现麻疹样或猩红热样皮疹</li><li><strong>出血倾向</strong>：皮肤瘀点、瘀斑，鼻出血、牙龈出血</li><li><strong>白细胞减少、血小板减少</strong></li><li class="warning"><strong>重症预警征象</strong>：剧烈腹痛、持续呕吐、嗜睡/烦躁、明显出血倾向、肝大＞2cm</li></ul></div>
+                        <div class="symptoms"><h4><i class="fas fa-user-md"></i> 临床处理要点</h4><ul><li>无特效抗病毒药物，主要采取<strong>对症支持治疗</strong></li><li><strong>补液是关键</strong>：但需警惕过度补液导致肺水肿</li><li><strong>禁用药物</strong>：避免使用阿司匹林、布洛芬等NSAIDs（增加出血风险）</li><li>退热建议使用<strong>对乙酰氨基酚</strong>，并监测血小板和血细胞比容</li><li>出现预警征象提示可能进展为<strong>登革出血热/登革休克综合征</strong>，需积极干预</li></ul></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="high-risk-section">
+            <h2 class="section-title"><i class="fas fa-users"></i> 重点人群健康提醒</h2>
+            <div class="risk-groups">
+                <div class="risk-card"><h4><i class="fas fa-user-injured"></i> 老年人群</h4><ul><li><strong>眼底病筛查</strong>：湿热季节是老年黄斑变性等进展的高风险期，建议每半年检查一次眼底。</li><li><strong>心血管调节</strong>：出汗多导致血液浓缩，心血管疾病患者需监测血压，及时补充水分。</li><li><strong>防跌倒</strong>：雨后地面湿滑，增加跌倒风险，建议穿防滑鞋，使用辅助工具。</li></ul></div>
+                <div class="risk-card"><h4><i class="fas fa-child"></i> 儿童及青少年</h4><ul><li><strong>急性结膜炎预防</strong>：游泳前后使用预防性眼药水，避免共用毛巾，出现眼红、分泌物增多及时就医。</li><li><strong>肠道传染病</strong>：注意手卫生，避免食用未彻底清洗的瓜果，警惕诺如病毒、轮状病毒感染。</li><li><strong>防溺水</strong>：加强对儿童监管，不在无安全设施水域游泳、玩耍。</li></ul></div>
+                <div class="risk-card"><h4><i class="fas fa-procedures"></i> 近期手术/有创操作者</h4><ul><li><strong>近视激光术后</strong>：严格遵医嘱使用抗生素眼药水预防感染，佩戴防紫外线太阳镜，避免汗水流入眼睛。</li><li><strong>伤口护理</strong>：保持伤口干燥清洁，出汗后及时用无菌纱布轻轻蘸干，警惕感染迹象。</li><li><strong>植入物患者</strong>：心脏起搏器、关节置换等患者，如出现不明原因发热，需警惕植入物感染可能。</li></ul></div>
+            </div>
+        </section>
+
+        <section class="tools-section">
+            <h2 class="section-title"><i class="fas fa-toolbox"></i> 健康工具与资源</h2>
+            <div class="tools-grid">
+                <div class="tool-item"><div class="tool-icon"><i class="fas fa-first-aid"></i></div><h4>家庭防虫急救包</h4><p>建议配备：尖头镊子、酒精棉片、碘伏、氢化可的松乳膏、驱蚊剂（含避蚊胺）、无菌纱布、绷带。</p></div>
+                <div class="tool-item"><div class="tool-icon"><i class="fas fa-clipboard-list"></i></div><h4>户外活动自查清单</h4><p>穿长袖长裤→使用驱虫剂→避免在草丛树林长时间坐卧→归家后全身检查→洗澡并更换衣物。</p></div>
+                <div class="tool-item"><div class="tool-icon"><i class="fas fa-file-pdf"></i></div><h4>健康提示下载</h4><p><a href="#" style="color: var(--primary-color); font-weight: 600;">点击下载</a>芒种时节健康指南PDF版，包含所有核心建议。</p></div>
+                <div class="tool-item"><div class="tool-icon"><i class="fas fa-comment-medical"></i></div><h4>误区澄清</h4><p>"被蜱虫叮咬可用烟头烫"——错误！会刺激蜱虫分泌更多唾液，增加感染风险。</p></div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="credits">设计制作：冯月儿 | 黑龙江护理高等专科学校 临床医学专业</div>
+            <div class="footer-content">
+                <div class="footer-section"><h4>知识来源</h4><ul><li>国家卫生健康委员会新闻发布会实录</li><li>《中华传染病杂志》临床指南</li><li>《热病：桑福德抗微生物治疗指南》</li><li>中国疾病预防控制中心技术方案</li></ul></div>
+                <div class="footer-section"><h4>临床医学提示</h4><p>本指南基于公开权威医学信息整理，旨在提升公众对季节高发疾病的认知。实际诊疗请以执业医师面诊为准。</p></div>
+                <div class="footer-section"><h4>免责声明</h4><div class="disclaimer"><p>本网站内容仅为健康科普，不能替代专业医师的诊断和治疗建议。如遇急症或健康问题，请立即就医。创作者不对因使用本网站信息而导致的任何直接或间接损失负责。</p></div></div>
+            </div>
+            <div class="copyright">© 2023 临床医学节气健康宣传项目 | 芒种专题 | 设计用于医学教育目的</div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const optionButtons = document.querySelectorAll('.option-btn');
+            const resultContainers = document.querySelectorAll('.result-container');
+            optionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const resultId = this.getAttribute('data-result');
+                    optionButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    resultContainers.forEach(container => container.classList.remove('active'));
+                    const targetResult = document.getElementById(`result-${resultId}`);
+                    if (targetResult) targetResult.classList.add('active');
+                });
+            });
+            const toggleButtons = document.querySelectorAll('.toggle-btn');
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const card = this.closest('.disease-card');
+                    const content = card.querySelector('.card-content');
+                    const icon = this.querySelector('i');
+                    content.classList.toggle('active');
+                    icon.className = content.classList.contains('active') ? 'fas fa-chevron-up' : 'fas fa-chevron-down';
+                });
+            });
+            if (document.querySelector('.disease-card .card-content')) {
+                document.querySelector('.disease-card .card-content').classList.add('active');
+                document.querySelector('.disease-card .toggle-btn i').className = 'fas fa-chevron-up';
+            }
+            if (document.querySelector('.option-btn[data-result="tick"]')) {
+                document.querySelector('.option-btn[data-result="tick"]').click();
+            }
+        });
+    </script>
+</body>
+</html>
+```
